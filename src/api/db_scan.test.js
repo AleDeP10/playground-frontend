@@ -3,13 +3,11 @@ const { dbScan } = require('./db_scan.js');
 
 test('Dovrebbe restituire 2', async () => {
   const response = await dbScan('SELECT 2');
-  console.log('dbScan.script', { response });
   expect(response.result).toBe(2);
 });
 
 test('Dovrebbe restituire una data valida', async () => {
   const response = await dbScan('SELECT NOW()', 'dataora');
-  console.log('dbScan.script', { response });
 
   // Verifica che il campo 'dataora' sia definito
   expect(response['dataora']).toBeDefined();

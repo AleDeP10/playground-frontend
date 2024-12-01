@@ -15,13 +15,11 @@ test('Dovrebbe restituire un object corrispondente ad un array non vuoto', async
 });
 
 test('Dovrebbe trovare il task ed aggiornarlo con successo', async () => {
-  console.log({id});
   const response = await aggiorna(id, '### Task Modificato', 'IN PROGRESS');
   expect(response.message ? response.message : null).toBe('Task aggiornato con successo');
 });
 
 test('Dovrebbe trovare il task e cancellarlo con successo', async () => {
-  console.log({id});
   const response = await cancella(id);
   expect(response.message ? response.message : null).toBe('Task eliminato con successo');
 });
