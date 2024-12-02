@@ -1,4 +1,4 @@
-const hello = require('./hello_world');
+import hello from './hello_world';
 
 test('Dovrebbe salutare il mondo intero!', async () => {
   const response = await hello();

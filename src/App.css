@@ -36,3 +36,8 @@
     transform: rotate(360deg);
   }
 }
+
+.App-Body {
+  color: forestgreen; 
+  font-size: 128px;
+}
