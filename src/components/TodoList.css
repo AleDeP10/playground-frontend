@@ -1,0 +1,20 @@
+.TodoList {
+  text-align: center;
+}
+
+.TodoList-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;  /* calc(10px + 2vmin) */
+  color: white;
+}
+
+.TodoList > h2 {
+  min-height: 100vh;
+  font-size: x-large;
+  color: #282c34;;
+}

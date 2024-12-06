@@ -3,7 +3,7 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 48px;
   pointer-events: none;
 }
 
@@ -15,17 +15,81 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 6vh;
   display: flex;
-  flex-direction: column;
+  flex-direction: row; /* Cambiato da column a row */
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: 16px; /* calc(10px + 2vmin); */
   color: white;
 }
 
+.Toolbar {
+  display: flex;
+  align-items: center; /* Allinea verticalmente tutti gli elementi figli */
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px;
+}
+
+.Toolbar > div {
+  display: flex;
+  align-items: center; /* Allinea verticalmente gli elementi all'interno del div */
+}
+
+.Menu-button {
+  margin-left: 10px; /* Aggiusta il margine per distanza dal logo */
+  padding: 10px;
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  align-self: center; /* Assicurati che il pulsante sia centrato verticalmente */
+}
+
+.Menu-content {
+  display: none;
+  position: absolute;
+  text-align: left;
+  margin-left: 20px;
+  background-color: white;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.Menu-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.Menu-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.Menu:hover .Menu-content {
+  display: block;
+}
+
 .App-link {
+  margin-right: 15px;
   color: #61dafb;
+  text-decoration: none;
+}
+
+.Login-button {
+  background-color: #61dafb;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.Login-button:hover {
+  background-color: #21a1f1;
 }
 
 @keyframes App-logo-spin {
@@ -35,9 +99,4 @@
   to {
     transform: rotate(360deg);
   }
-}
-
-.App-Body {
-  color: forestgreen; 
-  font-size: 128px;
 }

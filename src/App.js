@@ -1,26 +1,44 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+
+import TodoList from "./components/TodoList.js";
+
+import "./App.css";
 // Assicurati che il logo sia importato correttamente
-import logo from './logo.svg';
+import logo from "./logo.svg";
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <div className="Toolbar">
+          <div>
+            <img src={logo} className="App-logo" alt="logo" />
+            <nav className="Menu">
+              <button className="Menu-button">Resources</button>
+              <div className="Menu-content">
+                <a
+                  href="https://reactjs.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn React
+                </a>
+                <a
+                  href="https://copilot.microsoft.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Copilot
+                </a>
+              </div>
+            </nav>
+          </div>
+          <button className="Login-button">Login</button>
+        </div>
       </header>
-      <div className="App-Body">GREEN LIGHT</div>
+      <div className="App-body">
+        <TodoList />
+      </div>
     </div>
   );
 }
