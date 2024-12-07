@@ -54,7 +54,7 @@
   text-align: left;
   margin-left: 20px;
   background-color: white;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -65,7 +65,20 @@
   display: block;
 }
 
-.Menu-content a:hover {
+.Menu-content .Menu-Item {
+  font-size: inherit; /* Eredita il font size */
+  text-align: left;
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  padding: 12px 16px;
+  width: 100%; /* Assicura che l'intera area sia cliccabile */ 
+  display: block;
+}
+ 
+.Menu-content a:hover,
+.Menu-content .Menu-Item:hover {
   background-color: #f1f1f1;
 }
 

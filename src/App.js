@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 import TodoList from "./components/TodoList.js";
+import CreditsModal from "./components/CreditsModal.js";
+import TheTeamModal from "./components/TheTeamModal.js";
 
 import "./App.css";
 // Assicurati che il logo sia importato correttamente
 import logo from "./logo.svg";
 
 function App() {
+  const [displayCredits, setDisplayCredits] = useState(false);
+  const [displayTheTeam, setDisplayTheTeam] = useState(false);
+
   return (
     <div className="App">
       <header className="App-header">
@@ -24,12 +29,30 @@ function App() {
                   Learn React
                 </a>
                 <a
+                  href="https://www.freepik.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Freepik
+                </a>
+                <a
                   href="https://copilot.microsoft.com"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   Copilot
                 </a>
+              </div>
+            </nav>
+            <nav className="Menu">
+              <button className="Menu-button">About</button>
+              <div className="Menu-content">
+                <button className="Menu-Item" onClick={() => setDisplayCredits(true)}>
+                  Credits
+                </button>
+                <button className="Menu-Item" onClick={() => setDisplayTheTeam(true)}>
+                  The Team
+                </button>
               </div>
             </nav>
           </div>
@@ -39,6 +62,14 @@ function App() {
       <div className="App-body">
         <TodoList />
       </div>
+      <CreditsModal
+        isOpen={displayCredits}
+        onClose={() => setDisplayCredits(false)}
+      />
+      <TheTeamModal
+        isOpen={displayTheTeam}
+        onClose={() => setDisplayTheTeam(false)}
+      />
     </div>
   );
 }
