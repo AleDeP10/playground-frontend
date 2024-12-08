@@ -1,7 +1,7 @@
 export async function crea(task, status) {
     let jsonData;
     try {
-        const response = await fetch('http://localhost:5000/todo/crea', {
+        const response = await fetch(process.env.REACT_APP_SERVER+'/todo/crea', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -21,32 +21,31 @@ export async function crea(task, status) {
     return jsonData;
 }
 
-export async function ricerca(status) {
-    let jsonData;
+export async function ricerca(filters) {
     try {
-        const response = await fetch('http://localhost:5000/todo/ricerca', {
+        const response = await fetch(process.env.REACT_APP_SERVER + '/todo/ricerca', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ status })
+            body: JSON.stringify(filters)
         });
         if (!response.ok) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
-        jsonData = await response.json();
-        console.log('todoList.script', { status, jsonData });
+        const jsonData = await response.json();
+        console.log('todoList.script', { filters, jsonData });
+        return jsonData;
     } catch (error) {
-        console.error('Error:', error); // Gestisce gli errori e li registra nella console
-        jsonData = null;
+        console.error('Error:', error);
+        return null;
     }
-    return jsonData; // Restituisce jsonData
 }
 
 export async function aggiorna(id, task, status) {
     let jsonData; 
     try {
-        const response = await fetch(`http://localhost:5000/todo/aggiorna?id=${id}`, { 
+        const response = await fetch(`${process.env.REACT_APP_SERVER}/todo/aggiorna?id=${id}`, { 
             method: 'PUT', 
             headers: { 'Content-Type': 'application/json' }, 
             body: JSON.stringify({ task, status })
@@ -66,7 +65,7 @@ export async function aggiorna(id, task, status) {
 export async function cancella(id) {
     let jsonData; 
     try {
-        const response = await fetch(`http://localhost:5000/todo/cancella?id=${id}`, { 
+        const response = await fetch(`${process.env.REACT_APP_SERVER}/todo/cancella?id=${id}`, { 
             method: 'DELETE', 
             headers: { 'Content-Type': 'application/json' }
         });

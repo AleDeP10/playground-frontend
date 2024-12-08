@@ -1,25 +1,35 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { crea, aggiorna } from "../api/todo_list";
 import "./Modal.css";
 
-const AddEditModal = ({ isOpen, onClose, taskItem }) => {
+const AddEditModal = ({ isOpen, onSave, onClose, taskItem }) => {
   const [task, setTask] = useState(taskItem?.task || "");
   const [status, setStatus] = useState(taskItem?.status || "TODO");
 
-  const save = () => {
-    if (taskItem) {
-      aggiorna(taskItem.id, task, status);
-    } else {
-      crea(task, status);
+  const save = async () => {
+    try {
+      if (taskItem) {
+        await aggiorna(taskItem.id, task, status); // Aspetta che aggiorna si completi
+      } else {
+        await crea(task, status); // Aspetta che crea si completi
+      }
+      await onSave(); // Aspetta che onSave si completi
+      setTask('');
+      setStatus('TODO');
+    } catch (error) {
+      console.error('Error during save operation:', error);
     }
-    setTask('');
-    setStatus('TODO');
   }
 
   const saveAndClose = () => {
     save();
     onClose();
   }
+
+  useEffect(() => { 
+    setTask(taskItem?.task || '');
+    setStatus(taskItem?.status || 'TODO');
+  }, [taskItem])
 
   if (!isOpen) return null;
 

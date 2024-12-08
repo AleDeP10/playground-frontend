@@ -15,13 +15,54 @@
 
 .TodoList > h2 {
   display: flex;
-  align-items: center; /* Allinea verticalmente l'immagine con il testo */
+  align-items: center;
   justify-content: center;
-  /*height: 100vh;*/
   font-size: x-large;
   color: #282c34;
 }
+
+.List-Item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  align-items: center; /* Aggiunto per allineare verticalmente gli elementi */
+}
+
+.Task-Description {
+  flex: 1; /* Occupa tutto lo spazio rimanente */
+  text-align: left;
+  background-color: #e6f7ff; /* Azzurrino chiaro */
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.Task-Status, .Task-Buttons {
+  flex: 0 0 10%; /* Occupa circa il 15% dello spazio ciascuno */
+  text-align: left;
+}
+
+.Task-Status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #e6f7ff; /* Azzurrino chiaro */
+  padding: 5px;
+  border-radius: 4px;
+}
+
+.Task-Buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #e6f7ff; /* Azzurrino chiaro */
+  padding: 5px;
+  border-radius: 4px;
+}
+
 .Imaged-Button {
+  width: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -39,4 +80,42 @@
 .Imaged-Button:hover img {
   transform: scale(1.2); /* Effetto di ingrandimento */
   filter: brightness(1.2); /* Effetto di cambio tonalità */
+}
+
+.Imaged-Button:disabled {
+  cursor: not-allowed; /* Cambia il cursore */
+}
+
+.Imaged-Button:disabled img {
+  opacity: 0.5; /* Rende l'immagine opaca */
+}
+
+.Action-Buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.Add-Button {
+  background-color: #61dafb;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.Filter-Buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.Filter-Button, .Remove-Filter-Button {
+  background-color: #61dafb;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 4px;
 }
