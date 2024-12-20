@@ -1,16 +1,25 @@
 import React, { useState } from "react";
 
+import Login from "./components/Login.js";
 import TodoList from "./components/TodoList.js";
 import CreditsModal from "./components/CreditsModal.js";
 import TheTeamModal from "./components/TheTeamModal.js";
 
 import "./App.css";
-// Assicurati che il logo sia importato correttamente
+
 import logo from "./logo.svg";
+import MyComponent from "./components/MyComponent.js";
 
 function App() {
   const [displayCredits, setDisplayCredits] = useState(false);
   const [displayTheTeam, setDisplayTheTeam] = useState(false);
+  const [user, setUser] = useState();
+  const [currentView, setCurrentView] = useState("home");
+
+  const logout = () => {
+    setUser(null);
+    setCurrentView("todo");
+  } 
 
   return (
     <div className="App">
@@ -18,6 +27,23 @@ function App() {
         <div className="Toolbar">
           <div>
             <img src={logo} className="App-logo" alt="logo" />
+            <nav className="Menu">
+              <button className="Menu-button">Features</button>
+              <div className="Menu-content">
+                <button
+                  className="Menu-Item"
+                  onClick={() => setCurrentView("home")}
+                >
+                  Home Endpoints
+                </button>
+                <button
+                  className="Menu-Item"
+                  onClick={() => setCurrentView("todo")}
+                >
+                  Todo List
+                </button>
+              </div>
+            </nav>
             <nav className="Menu">
               <button className="Menu-button">Resources</button>
               <div className="Menu-content">
@@ -47,20 +73,42 @@ function App() {
             <nav className="Menu">
               <button className="Menu-button">About</button>
               <div className="Menu-content">
-                <button className="Menu-Item" onClick={() => setDisplayCredits(true)}>
+                <button
+                  className="Menu-Item"
+                  onClick={() => setDisplayCredits(true)}
+                >
                   Credits
                 </button>
-                <button className="Menu-Item" onClick={() => setDisplayTheTeam(true)}>
+                <button
+                  className="Menu-Item"
+                  onClick={() => setDisplayTheTeam(true)}
+                >
                   The Team
                 </button>
               </div>
             </nav>
           </div>
-          <button className="Login-button">Login</button>
+          {user ? (
+            <button
+              className="Login-button"
+              onClick={() => logout()}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              className="Login-button"
+              onClick={() => setCurrentView("todo")}
+            >
+              Login
+            </button>
+          )}
         </div>
       </header>
       <div className="App-body">
-        <TodoList />
+        {currentView === "home" && <MyComponent />}
+        {currentView === "todo" &&
+          (user ? <TodoList /> : <Login setUser={setUser} />)}
       </div>
       <CreditsModal
         isOpen={displayCredits}

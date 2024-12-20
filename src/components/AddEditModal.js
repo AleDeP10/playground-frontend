@@ -1,35 +1,41 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
+import useApiClientInterceptors from "../useApiClientInterceptors";
 import { crea, aggiorna } from "../api/todo_list";
 import "./Modal.css";
 
 const AddEditModal = ({ isOpen, onSave, onClose, taskItem }) => {
+  const apiClient = useApiClientInterceptors();
+
+  const [currentItem, setCurrentItem] = useState(taskItem)
   const [task, setTask] = useState(taskItem?.task || "");
   const [status, setStatus] = useState(taskItem?.status || "TODO");
 
   const save = async () => {
     try {
-      if (taskItem) {
-        await aggiorna(taskItem.id, task, status); // Aspetta che aggiorna si completi
+      if (currentItem?.id) {
+        await aggiorna(apiClient, taskItem.id, task, status); // Aspetta che aggiorna si completi
       } else {
-        await crea(task, status); // Aspetta che crea si completi
+        await crea(apiClient, task, status); // Aspetta che crea si completi
       }
       await onSave(); // Aspetta che onSave si completi
-      setTask('');
-      setStatus('TODO');
+      setTask("");
+      setStatus("TODO");
     } catch (error) {
-      console.error('Error during save operation:', error);
+      console.error("Error during save operation:", error);
     }
-  }
+  };
 
   const saveAndClose = () => {
     save();
     onClose();
-  }
+  };
 
-  useEffect(() => { 
-    setTask(taskItem?.task || '');
-    setStatus(taskItem?.status || 'TODO');
-  }, [taskItem])
+  useEffect(() => {
+    setTask(taskItem?.task || "");
+    setStatus(taskItem?.status || "TODO");
+    setCurrentItem(taskItem);
+  }, [taskItem]);
 
   if (!isOpen) return null;
 
@@ -39,7 +45,7 @@ const AddEditModal = ({ isOpen, onSave, onClose, taskItem }) => {
         <span className="close" onClick={onClose}>
           &times;
         </span>
-        <h2>{taskItem ? "Edit Task" : "New Task"}</h2>
+        <h2>{currentItem?.id ? "Edit Task" : "New Task"}</h2>
         <div>
           <div className="input-container">
             <span className="task-label">Task</span>
@@ -50,7 +56,7 @@ const AddEditModal = ({ isOpen, onSave, onClose, taskItem }) => {
             />
           </div>
           <div className="input-container">
-          <span className="task-label">Status</span>
+            <span className="task-label">Status</span>
             <select value={status} onChange={(e) => setStatus(e.target.value)}>
               <option value="TODO">TODO</option>
               <option value="IN PROGRESS">IN PROGRESS</option>
@@ -65,6 +71,17 @@ const AddEditModal = ({ isOpen, onSave, onClose, taskItem }) => {
       </div>
     </div>
   );
+};
+
+AddEditModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onSave: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  taskItem: PropTypes.shape({
+    id: PropTypes.number,
+    task: PropTypes.string,
+    status: PropTypes.string,
+  }),
 };
 
 export default AddEditModal;

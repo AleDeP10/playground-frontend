@@ -1,10 +1,12 @@
 import React from "react";
+import PropTypes from "prop-types";
 import AddImg from "../assets/add_9055025.png";
 import ArrowImg from "../assets/right-arrow_5690084.png";
 import DeleteImg from "../assets/delete_5801831.png";
 import EditImg from "../assets/circle_14025219.png";
 import FilterImg from "../assets/filter_6460397.png";
 import RemoveFilterImg from "../assets/failed_6569363.png";
+import SpinnerImg from "../assets/blue_14025120.png";
 import "./Modal.css";
 
 const CreditsModal = ({ isOpen, onClose }) => {
@@ -42,10 +44,19 @@ const CreditsModal = ({ isOpen, onClose }) => {
             <img src={RemoveFilterImg} alt="show all" />
             <a href="https://www.freepik.com/search#uuid=f3221fc7-1efe-4618-a3dc-0090871c757b">Icon by Rizki Ahmad Fauzi</a>
           </li>
+          <li>
+            <img src={SpinnerImg} alt="spinner" />
+            <a href="https://www.freepik.com/search">Icon by hqrloveq</a>
+          </li>
         </ul>
       </div>
     </div>
   );
+};
+
+CreditsModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 export default CreditsModal;

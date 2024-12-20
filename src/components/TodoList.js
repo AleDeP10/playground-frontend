@@ -1,5 +1,8 @@
 import { useEffect, useState, useCallback } from "react";
-
+import useApiClientInterceptors from "../useApiClientInterceptors";
+import { ricerca, aggiorna, cancella } from "../api/todo_list";
+import AddEditModal from "./AddEditModal";
+import FiltersModal from "./FiltersModal";
 import AddImg from "../assets/add_9055025.png";
 import ArrowImg from "../assets/right-arrow_5690084.png";
 import DeleteImg from "../assets/delete_5801831.png";
@@ -7,14 +10,11 @@ import EditImg from "../assets/circle_14025219.png";
 import FilterImg from "../assets/filter_6460397.png";
 import RemoveFilterImg from "../assets/failed_6569363.png";
 
-import { ricerca, aggiorna, cancella } from "../api/todo_list";
-
-import AddEditModal from "./AddEditModal";
-import FiltersModal from "./FiltersModal";
-
 import "./TodoList.css";
 
 const TodoList = () => {
+  const apiClient = useApiClientInterceptors();
+
   const [displayAddEdit, setDisplayAddEdit] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
   const [taskItems, setTodoItems] = useState([]);
@@ -22,7 +22,7 @@ const TodoList = () => {
   const [filters, setFilters] = useState({});
 
   const search = useCallback(async () => {
-    const items = await ricerca(filters);
+    const items = await ricerca(apiClient, filters);
     if (Array.isArray(items)) {
       setTodoItems(items);
     } else {
@@ -34,7 +34,6 @@ const TodoList = () => {
   const closeTaskModal = async () => {
     setDisplayAddEdit(false);
     setTaskItem(null);
-    await search();
   };
 
   const closeFilterModal = async () => {
@@ -58,7 +57,7 @@ const TodoList = () => {
   };
 
   const remove = async (id) => {
-    await cancella(id);
+    await cancella(apiClient, id);
     await search();
   };
 
@@ -73,7 +72,7 @@ const TodoList = () => {
       default:
         return;
     }
-    await aggiorna(task.id, task.task, task.status);
+    await aggiorna(apiClient, task.id, task.task, task.status);
     await search();
   };
 
@@ -87,6 +86,7 @@ const TodoList = () => {
       <div className="Action-Buttons">
         <button
           className="Imaged-Button"
+          title="Add task"
           onClick={() => setDisplayAddEdit(true)}
         >
           <img src={AddImg} alt="add" />
@@ -94,12 +94,13 @@ const TodoList = () => {
         <div className="Filter-Buttons">
           <button
             className="Imaged-Button"
+            title="Filters"
             onClick={() => setDisplayFilters(true)}
           >
             <img src={FilterImg} alt="filter" />
           </button>
-          <button className="Imaged-Button" onClick={() => removeFilter()}>
-            <img src={RemoveFilterImg} alt="show all" />
+          <button className="Imaged-Button" title="Reset to default" onClick={() => removeFilter()}>
+            <img src={RemoveFilterImg} alt="remove filter" />
           </button>
         </div>
       </div>
@@ -110,17 +111,26 @@ const TodoList = () => {
             <span className="Task-Description">{task.task}</span>
             <span className="Task-Status">{task.status}</span>
             <span className="Task-Buttons">
-              <button className="Imaged-Button" onClick={() => editTask(task)}>
+              <button
+                className="Imaged-Button"
+                title="Edit task"
+                onClick={() => editTask(task)}
+              >
                 <img src={EditImg} alt="edit" />
               </button>
               <button
                 className="Imaged-Button"
+                title="Move to next status"
                 onClick={() => nextStatus(task)}
                 disabled={task.status === "DONE"}
               >
                 <img src={ArrowImg} alt="next" />
               </button>
-              <button className="Imaged-Button" onClick={() => remove(task.id)}>
+              <button
+                className="Imaged-Button"
+                title="Delete task"
+                onClick={() => remove(task.id)}
+              >
                 <img src={DeleteImg} alt="delete" />
               </button>
             </span>

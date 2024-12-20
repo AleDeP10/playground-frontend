@@ -55,6 +55,7 @@ img {
 
 .input-container { 
   display: flex; 
+  gap: 10px;
   align-items: center; 
   margin-bottom: 10px;
 } 
@@ -67,14 +68,14 @@ img {
 }
 
 input, select { 
-  width: 600px; 
+  width: 400px; 
   padding: 8px; 
   border: 1px solid #ccc; 
   border-radius: 4px; 
   box-sizing: border-box; 
 } 
 
-input[type="text"] { 
+input[type="text"], input[type="password"] { 
   display: block; 
   font-size: 16px; 
 } 
@@ -126,4 +127,9 @@ select {
 .checkbox-container input[type="checkbox"] {
   margin-right: 8px;
   width: 16px;
+}
+
+img.spinner {
+  width: 400px;
+  height: 400px;
 }

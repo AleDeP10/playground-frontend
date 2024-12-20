@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "./Modal.css";
 
 const TheTeamModal = ({ isOpen, onClose }) => {
@@ -22,6 +23,11 @@ const TheTeamModal = ({ isOpen, onClose }) => {
       </div>
     </div>
   );
+};
+
+TheTeamModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
 };
 
 export default TheTeamModal;

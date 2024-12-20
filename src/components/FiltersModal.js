@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import "./Modal.css";
 
 const FiltersModal = ({ isOpen, onClose, filters, setFilters }) => {
@@ -19,7 +20,7 @@ const FiltersModal = ({ isOpen, onClose, filters, setFilters }) => {
     setShowInProgress(filters?.showInProgress || true);
     setShowDone(filters?.showDone || false);
     setTaskLike(filters?.taskLike || "");
-    console.log('FiltersModal', {filters})
+    console.log('FiltersModal', { filters });
   }, [filters]);
 
   if (!isOpen) return null;
@@ -76,6 +77,19 @@ const FiltersModal = ({ isOpen, onClose, filters, setFilters }) => {
       </div>
     </div>
   );
+};
+
+// Definisci i tipi delle proprietà con propTypes
+FiltersModal.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  filters: PropTypes.shape({
+    showTodo: PropTypes.bool,
+    showInProgress: PropTypes.bool,
+    showDone: PropTypes.bool,
+    taskLike: PropTypes.string
+  }).isRequired,
+  setFilters: PropTypes.func.isRequired
 };
 
 export default FiltersModal;
