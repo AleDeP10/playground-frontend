@@ -6,7 +6,7 @@ const useTodoStore = create(devtools((set, get) => ({
   filters: {
     showTodo: true,
     showInProgress: true,
-    showDone: true,
+    showDone: false,
     taskLike: "",
   },
   setTasks: (tasks) => set({ tasks }),

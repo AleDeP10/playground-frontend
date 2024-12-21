@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useTodoStore } from "../store";
 import "./Modal.css";
 
-const FiltersModal = ({ isOpen, onClose, filters, setFilters }) => {
+const FiltersModal = ({ isOpen, onClose }) => {
+  const setFilters = useTodoStore((state) => state.setFilters);
+  const filters = useTodoStore((state) => state.filters);
+
   const [showTodo, setShowTodo] = useState(filters?.showTodo || true);
   const [showInProgress, setShowInProgress] = useState(
     filters?.showInProgress || true

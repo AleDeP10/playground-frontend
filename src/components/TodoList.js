@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import useApiClientInterceptors from "../useApiClientInterceptors";
+import { useTodoStore } from "../store";
 import { ricerca, aggiorna, cancella } from "../api/todo_list";
 import AddEditModal from "./AddEditModal";
 import FiltersModal from "./FiltersModal";
@@ -15,19 +16,27 @@ import "./TodoList.css";
 const TodoList = () => {
   const apiClient = useApiClientInterceptors();
 
+  const setTaskItems = useTodoStore((state) => state.setTasks);
+  const setFilters = useTodoStore((state) => state.setFilters);
+  const filters = useTodoStore((state) => state.filters);
+  const getFilteredTasks = useTodoStore((state) => state.getFilteredTasks);
+
   const [displayAddEdit, setDisplayAddEdit] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
-  const [taskItems, setTodoItems] = useState([]);
   const [taskItem, setTaskItem] = useState(null);
-  const [filters, setFilters] = useState({});
 
   const search = useCallback(async () => {
-    const items = await ricerca(apiClient, filters);
+    const items = await ricerca(apiClient, {
+      showTodo: true,
+      showInProgress: true,
+      showDone: true,
+      taskLike: "",
+    });
     if (Array.isArray(items)) {
-      setTodoItems(items);
+      setTaskItems(items);
     } else {
       console.log("TodoList", { items });
-      setTodoItems([]);
+      setTaskItems([]);
     }
   }, [filters]);
 
@@ -99,14 +108,18 @@ const TodoList = () => {
           >
             <img src={FilterImg} alt="filter" />
           </button>
-          <button className="Imaged-Button" title="Reset to default" onClick={() => removeFilter()}>
+          <button
+            className="Imaged-Button"
+            title="Reset to default"
+            onClick={() => removeFilter()}
+          >
             <img src={RemoveFilterImg} alt="remove filter" />
           </button>
         </div>
       </div>
 
       <div className="List">
-        {taskItems.map((task) => (
+        {getFilteredTasks().map((task) => (
           <div key={task.id} className="List-Item">
             <span className="Task-Description">{task.task}</span>
             <span className="Task-Status">{task.status}</span>
