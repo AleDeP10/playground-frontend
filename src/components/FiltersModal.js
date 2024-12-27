@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useTodoStore } from "../store";
+import { useTodoStore } from "../store/index.js";
 import "./Modal.css";
 
 const FiltersModal = ({ isOpen, onClose }) => {
   const setFilters = useTodoStore((state) => state.setFilters);
   const filters = useTodoStore((state) => state.filters);
 
-  const [showTodo, setShowTodo] = useState(filters?.showTodo || true);
-  const [showInProgress, setShowInProgress] = useState(
-    filters?.showInProgress || true
-  );
-  const [showDone, setShowDone] = useState(filters?.showDone || true);
-  const [taskLike, setTaskLike] = useState(filters?.taskLike || "");
+  const [showTodo, setShowTodo] = useState(filters.showTodo);
+  const [showInProgress, setShowInProgress] = useState(filters.showInProgress);
+  const [showDone, setShowDone] = useState(filters.showDone);
+  const [taskLike, setTaskLike] = useState(filters.taskLike);
 
   const apply = () => {
     setFilters({ showTodo, showInProgress, showDone, taskLike });
@@ -20,12 +18,12 @@ const FiltersModal = ({ isOpen, onClose }) => {
   };
 
   useEffect(() => {
-    setShowTodo(filters?.showTodo || true);
-    setShowInProgress(filters?.showInProgress || true);
-    setShowDone(filters?.showDone || false);
-    setTaskLike(filters?.taskLike || "");
-    console.log('FiltersModal', { filters });
-  }, [filters]);
+    setShowTodo(filters.showTodo);
+    setShowInProgress(filters.showInProgress);
+    setShowDone(filters.showDone);
+    setTaskLike(filters.taskLike);
+    console.log("FiltersModal", { filters });
+  }, [filters, isOpen]); // Aggiungi `isOpen` come dipendenza
 
   if (!isOpen) return null;
 
@@ -87,13 +85,6 @@ const FiltersModal = ({ isOpen, onClose }) => {
 FiltersModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  filters: PropTypes.shape({
-    showTodo: PropTypes.bool,
-    showInProgress: PropTypes.bool,
-    showDone: PropTypes.bool,
-    taskLike: PropTypes.string
-  }).isRequired,
-  setFilters: PropTypes.func.isRequired
 };
 
 export default FiltersModal;

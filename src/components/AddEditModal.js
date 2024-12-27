@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import useApiClientInterceptors from "../useApiClientInterceptors";
-import { crea, aggiorna } from "../api/todo_list";
+import useApiClientInterceptors from "../useApiClientInterceptors.js";
+import { crea, aggiorna } from "../api/todo_list.js";
 import "./Modal.css";
 
-const AddEditModal = ({ isOpen, onSave, onClose, taskItem }) => {
+const AddEditModal = ({ isOpen, onClose, onSave, taskItem }) => {
   const apiClient = useApiClientInterceptors();
 
   const [currentItem, setCurrentItem] = useState(taskItem)
@@ -24,6 +24,14 @@ const AddEditModal = ({ isOpen, onSave, onClose, taskItem }) => {
     } catch (error) {
       console.error("Error during save operation:", error);
     }
+  };
+
+  const saveAndNew = () => {
+    save();
+    setCurrentItem({
+      task: '',
+      status: 'IN PROGRESS'
+    });
   };
 
   const saveAndClose = () => {
@@ -66,7 +74,7 @@ const AddEditModal = ({ isOpen, onSave, onClose, taskItem }) => {
         </div>
         <div className="buttons">
           <button onClick={saveAndClose}>Save</button>
-          <button onClick={save}>Save and new</button>
+          <button onClick={saveAndNew}>Save and new</button>
         </div>
       </div>
     </div>

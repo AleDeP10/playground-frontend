@@ -1,9 +1,9 @@
-import { useEffect, useState, useCallback } from "react";
-import useApiClientInterceptors from "../useApiClientInterceptors";
-import { useTodoStore } from "../store";
-import { ricerca, aggiorna, cancella } from "../api/todo_list";
-import AddEditModal from "./AddEditModal";
-import FiltersModal from "./FiltersModal";
+import React, { useEffect, useState, useCallback } from "react";
+import useApiClientInterceptors from "../useApiClientInterceptors.js";
+import { useTodoStore } from "../store/index.js";
+import { ricerca, aggiorna, cancella } from "../api/todo_list.js";
+import AddEditModal from "./AddEditModal.js";
+import FiltersModal from "./FiltersModal.js";
 import AddImg from "../assets/add_9055025.png";
 import ArrowImg from "../assets/right-arrow_5690084.png";
 import DeleteImg from "../assets/delete_5801831.png";
@@ -21,43 +21,44 @@ const TodoList = () => {
   const filters = useTodoStore((state) => state.filters);
   const getFilteredTasks = useTodoStore((state) => state.getFilteredTasks);
 
+  const [updated, setUpdated] = useState(true);
   const [displayAddEdit, setDisplayAddEdit] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
   const [taskItem, setTaskItem] = useState(null);
 
   const search = useCallback(async () => {
-    const items = await ricerca(apiClient, {
-      showTodo: true,
-      showInProgress: true,
-      showDone: true,
-      taskLike: "",
-    });
+    const items = await ricerca(apiClient);
     if (Array.isArray(items)) {
       setTaskItems(items);
     } else {
       console.log("TodoList", { items });
       setTaskItems([]);
     }
-  }, [filters]);
+  }, [apiClient, setTaskItems]);
 
-  const closeTaskModal = async () => {
+  useEffect(() => {
+    if (updated) {
+      search();
+      setUpdated(false);
+    }
+  }, [search, updated]);
+
+  const closeTaskModal = () => {
     setDisplayAddEdit(false);
     setTaskItem(null);
   };
 
-  const closeFilterModal = async () => {
+  const closeFilterModal = () => {
     setDisplayFilters(false);
-    await search();
   };
 
-  const removeFilter = async () => {
+  const removeFilter = () => {
     setFilters({
       taskLike: "",
       showTodo: true,
       showInProgress: true,
       showDone: false,
     });
-    await search();
   };
 
   const editTask = (task) => {
@@ -67,7 +68,7 @@ const TodoList = () => {
 
   const remove = async (id) => {
     await cancella(apiClient, id);
-    await search();
+    setUpdated(true);
   };
 
   const nextStatus = async (task) => {
@@ -82,12 +83,8 @@ const TodoList = () => {
         return;
     }
     await aggiorna(apiClient, task.id, task.task, task.status);
-    await search();
+    setUpdated(true);
   };
-
-  useEffect(() => {
-    search();
-  }, [search]);
 
   return (
     <div className="TodoList">
@@ -111,7 +108,7 @@ const TodoList = () => {
           <button
             className="Imaged-Button"
             title="Reset to default"
-            onClick={() => removeFilter()}
+            onClick={removeFilter}
           >
             <img src={RemoveFilterImg} alt="remove filter" />
           </button>
@@ -153,7 +150,7 @@ const TodoList = () => {
       <AddEditModal
         isOpen={displayAddEdit}
         onClose={closeTaskModal}
-        onSave={search}
+        onSave={() => setUpdated(true)}
         taskItem={taskItem}
       />
       <FiltersModal

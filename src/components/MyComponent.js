@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useSpinnerStore } from "../store";
-import SpinnerModal from "./SpinnerModal";
-import { hello } from "../api/hello_world";
-import { fetchData } from "../api/linkedin_snipplet_01";
-import { dbScan } from "../api/db_scan";
+import { useSpinnerStore } from "../store/index.js";
+import SpinnerModal from "./SpinnerModal.js";
+import { hello } from "../api/hello_world.js";
+import { fetchData } from "../api/linkedin_snipplet_01.js";
+import { dbScan } from "../api/db_scan.js";
 import SpinnerImg from "../assets/blue_14025120.png";
 import "./MyComponent.css";
 
@@ -106,5 +106,7 @@ const MyComponent = () => {
     </div>
   );
 };
+
+MyComponent.displayName = "MyComponent";
 
 export default MyComponent;
