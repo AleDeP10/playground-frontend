@@ -1,11 +1,12 @@
 {
   "name": "playground-frontend",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "area di test e verifiche veloci",
   "main": "index.js",
   "type": "module",
   "scripts": {
     "start": "react-scripts start",
+    "start:serve": "serve -s build",
     "build": "react-scripts build",
     "test": "jest",
     "test:react": "react-scripts test",

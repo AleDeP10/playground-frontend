@@ -6,7 +6,7 @@ export async function crea(apiClient, task, status) {
       { task, status }
     );
 
-    if (response.statusText !== "OK") {
+    if (response.statusText !== "Created") {
       throw new Error("Network response was not ok " + response.statusText);
     }
     jsonData = response.data;
