@@ -29,27 +29,24 @@ const TodoList = () => {
   const [displayAddEdit, setDisplayAddEdit] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
   const [taskItem, setTaskItem] = useState(null);
-  const [showSpinner, setShowSpinner] = useState(false);
 
   const search = useCallback(async () => {
-    setLocalSpinner({todoList: true});
-    setShowSpinner(true);
+    setLocalSpinner("todoList", true);
     const items = await ricerca(apiClient);
     if (Array.isArray(items)) {
       setTaskItems(items);
     } else {
-      console.log("TodoList", { items });
       setTaskItems([]);
     }
-    setLocalSpinner({todoList: false});
-    setShowSpinner(false);
+    setLocalSpinner("todoList", false);
   }, [apiClient, setTaskItems]);
 
   useEffect(() => {
-    if (updated) {
-      search();
+    async function fetchData() {
+      await search();
       setUpdated(false);
     }
+    fetchData();
   }, [search, updated]);
 
   const closeTaskModal = () => {
@@ -125,39 +122,40 @@ const TodoList = () => {
       </div>
 
       <div className="List">
-        {JSON.stringify(showSpinner)} {JSON.stringify(localSpinner)}
-        {showSpinner ? localSpinner.todoList && (
-          <img src={SpinnerImg} className="App-logo" alt="spinner" />
-        ) : getFilteredTasks().map((task) => (
-          <div key={task.id} className="List-Item">
-            <span className="Task-Description">{task.task}</span>
-            <span className="Task-Status">{task.status}</span>
-            <span className="Task-Buttons">
-              <button
-                className="Imaged-Button"
-                title="Edit task"
-                onClick={() => editTask(task)}
-              >
-                <img src={EditImg} alt="edit" />
-              </button>
-              <button
-                className="Imaged-Button"
-                title="Move to next status"
-                onClick={() => nextStatus(task)}
-                disabled={task.status === "DONE"}
-              >
-                <img src={ArrowImg} alt="next" />
-              </button>
-              <button
-                className="Imaged-Button"
-                title="Delete task"
-                onClick={() => remove(task.id)}
-              >
-                <img src={DeleteImg} alt="delete" />
-              </button>
-            </span>
-          </div>
-        ))}
+        {localSpinner.todoList ? (
+          <img src={SpinnerImg} className="App-logo spinner" alt="spinner" />
+        ) : (
+          getFilteredTasks().map((task) => (
+            <div key={task.id} className="List-Item">
+              <span className="Task-Description">{task.task}</span>
+              <span className="Task-Status">{task.status}</span>
+              <span className="Task-Buttons">
+                <button
+                  className="Imaged-Button"
+                  title="Edit task"
+                  onClick={() => editTask(task)}
+                >
+                  <img src={EditImg} alt="edit" />
+                </button>
+                <button
+                  className="Imaged-Button"
+                  title="Move to next status"
+                  onClick={() => nextStatus(task)}
+                  disabled={task.status === "DONE"}
+                >
+                  <img src={ArrowImg} alt="next" />
+                </button>
+                <button
+                  className="Imaged-Button"
+                  title="Delete task"
+                  onClick={() => remove(task.id)}
+                >
+                  <img src={DeleteImg} alt="delete" />
+                </button>
+              </span>
+            </div>
+          ))
+        )}
       </div>
       <AddEditModal
         isOpen={displayAddEdit}
