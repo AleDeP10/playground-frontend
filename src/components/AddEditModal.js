@@ -30,12 +30,12 @@ const AddEditModal = ({ isOpen, onClose, onSave, taskItem }) => {
     save();
     setCurrentItem({
       task: '',
-      status: 'IN PROGRESS'
+      status: 'TODO'
     });
   };
 
-  const saveAndClose = () => {
-    save();
+  const saveAndClose = async () => {
+    await save();
     onClose();
   };
 

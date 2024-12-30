@@ -36,7 +36,7 @@ const useApiClientInterceptors = (disableSpinner = false) => {
         setShowSpinner(false); 
 
       if (error.response && error.response.status === 403) {
-        // Gestione dell"errore 403 Forbidden
+        // Gestione dell'errore 403 Forbidden
         //alert("Accesso negato. Sarai reindirizzato alla pagina di login.");
         window.location.reload() // Redirect alla pagina di login
       }

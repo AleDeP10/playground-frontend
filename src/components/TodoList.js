@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from "react";
 import useApiClientInterceptors from "../useApiClientInterceptors.js";
 import { useTodoStore } from "../store/index.js";
+import { useSpinnerStore } from "../store/index.js";
 import { ricerca, aggiorna, cancella } from "../api/todo_list.js";
 import AddEditModal from "./AddEditModal.js";
 import FiltersModal from "./FiltersModal.js";
@@ -10,6 +11,7 @@ import DeleteImg from "../assets/delete_5801831.png";
 import EditImg from "../assets/circle_14025219.png";
 import FilterImg from "../assets/filter_6460397.png";
 import RemoveFilterImg from "../assets/failed_6569363.png";
+import SpinnerImg from "../assets/blue_14025120.png";
 
 import "./TodoList.css";
 
@@ -20,13 +22,18 @@ const TodoList = () => {
   const setFilters = useTodoStore((state) => state.setFilters);
   const filters = useTodoStore((state) => state.filters);
   const getFilteredTasks = useTodoStore((state) => state.getFilteredTasks);
+  const localSpinner = useSpinnerStore((state) => state.localSpinner);
+  const setLocalSpinner = useSpinnerStore((state) => state.setLocalSpinner);
 
   const [updated, setUpdated] = useState(true);
   const [displayAddEdit, setDisplayAddEdit] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
   const [taskItem, setTaskItem] = useState(null);
+  const [showSpinner, setShowSpinner] = useState(false);
 
   const search = useCallback(async () => {
+    setLocalSpinner({todoList: true});
+    setShowSpinner(true);
     const items = await ricerca(apiClient);
     if (Array.isArray(items)) {
       setTaskItems(items);
@@ -34,6 +41,8 @@ const TodoList = () => {
       console.log("TodoList", { items });
       setTaskItems([]);
     }
+    setLocalSpinner({todoList: false});
+    setShowSpinner(false);
   }, [apiClient, setTaskItems]);
 
   useEffect(() => {
@@ -116,7 +125,10 @@ const TodoList = () => {
       </div>
 
       <div className="List">
-        {getFilteredTasks().map((task) => (
+        {JSON.stringify(showSpinner)} {JSON.stringify(localSpinner)}
+        {showSpinner ? localSpinner.todoList && (
+          <img src={SpinnerImg} className="App-logo" alt="spinner" />
+        ) : getFilteredTasks().map((task) => (
           <div key={task.id} className="List-Item">
             <span className="Task-Description">{task.task}</span>
             <span className="Task-Status">{task.status}</span>
