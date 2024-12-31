@@ -58,7 +58,7 @@ export async function aggiorna(apiClient, id, task, status) {
 export async function cancella(apiClient, id) {
   let jsonData;
   try {
-    const response = apiClient.delete(
+    const response = await apiClient.delete(
       `${process.env.REACT_APP_SERVER}/todo/cancella?id=${id}`
     );
     if (response.statusText !== "OK") {
