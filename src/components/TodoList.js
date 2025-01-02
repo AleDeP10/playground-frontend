@@ -29,6 +29,7 @@ const TodoList = () => {
   const [displayAddEdit, setDisplayAddEdit] = useState(false);
   const [displayFilters, setDisplayFilters] = useState(false);
   const [taskItem, setTaskItem] = useState(null);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const search = useCallback(async () => {
     setLocalSpinner("todoList", true);
@@ -73,7 +74,8 @@ const TodoList = () => {
   };
 
   const remove = async (id) => {
-    await cancella(apiClient, id);
+    const { error } = await cancella(apiClient, id);
+    displayErrorMessage(error);
     setUpdated(true);
   };
 
@@ -88,13 +90,26 @@ const TodoList = () => {
       default:
         return;
     }
-    await aggiorna(apiClient, task.id, task.task, task.status);
+    const { error } = await aggiorna(apiClient, task.id, task.task, task.status);
+    displayErrorMessage(error);
     setUpdated(true);
   };
+
+  const displayErrorMessage = (error) => {
+    if (error) {
+      setErrorMessage(error);
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 5000)
+    } else {
+      setErrorMessage("");
+    }
+  }
 
   return (
     <div className="TodoList">
       <h2>TODO LIST</h2>
+      {errorMessage && <div className="Error">{errorMessage}</div>}
       <div className="Action-Buttons">
         <button
           className="Imaged-Button"
