@@ -10,34 +10,58 @@ const AddEditModal = ({ isOpen, onClose, onSave, taskItem }) => {
   const [currentItem, setCurrentItem] = useState(taskItem)
   const [task, setTask] = useState(taskItem?.task || "");
   const [status, setStatus] = useState(taskItem?.status || "TODO");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const save = async () => {
     try {
+      let error;
       if (currentItem?.id) {
-        await aggiorna(apiClient, taskItem.id, task, status); // Aspetta che aggiorna si completi
+        error = await aggiorna(apiClient, taskItem.id, task, status); // Aspetta che aggiorna si completi
       } else {
-        await crea(apiClient, task, status); // Aspetta che crea si completi
+        error = await crea(apiClient, task, status); // Aspetta che crea si completi
       }
-      await onSave(); // Aspetta che onSave si completi
-      setTask("");
-      setStatus("TODO");
+      const display = displayErrorMessage(error);
+      if (!display) {
+        onSave(); // Aspetta che onSave si completi
+        setTask("");
+        setStatus("TODO");
+        return true;
+      } else {
+        return false;
+      }
     } catch (error) {
       console.error("Error during save operation:", error);
+      return false;
     }
   };
 
-  const saveAndNew = () => {
-    save();
-    setCurrentItem({
-      task: '',
-      status: 'TODO'
-    });
+  const saveAndNew = async () => {
+    if (await save()) {
+      setCurrentItem({
+        task: "",
+        status: "TODO"
+      });
+    }
   };
 
   const saveAndClose = async () => {
-    await save();
-    onClose();
+    if (await save()) {
+      onClose();
+    }
   };
+
+  const displayErrorMessage = (jsonData) => {
+    if (jsonData?.error) {
+      setErrorMessage(jsonData.error);
+      setTimeout(() => {
+        setErrorMessage("");
+      }, 5000);
+      return true;
+    }
+
+    setErrorMessage("");
+    return false;
+  }
 
   useEffect(() => {
     setTask(taskItem?.task || "");
@@ -54,6 +78,7 @@ const AddEditModal = ({ isOpen, onClose, onSave, taskItem }) => {
           &times;
         </span>
         <h2>{currentItem?.id ? "Edit Task" : "New Task"}</h2>
+        {errorMessage && <div className="Error">{errorMessage}</div>}
         <div>
           <div className="input-container">
             <span className="task-label">Task</span>
