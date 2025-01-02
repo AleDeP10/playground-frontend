@@ -73,7 +73,7 @@ const TodoList = () => {
     setDisplayAddEdit(true);
   };
 
-  const remove = async (id) => {
+  const removeTask = async (id) => {
     const { error } = await cancella(apiClient, id);
     displayErrorMessage(error);
     setUpdated(true);
@@ -100,7 +100,7 @@ const TodoList = () => {
       setErrorMessage(error);
       setTimeout(() => {
         setErrorMessage("");
-      }, 5000)
+      }, 5000);
     } else {
       setErrorMessage("");
     }
@@ -163,7 +163,7 @@ const TodoList = () => {
                 <button
                   className="Imaged-Button"
                   title="Delete task"
-                  onClick={() => remove(task.id)}
+                  onClick={() => removeTask(task.id)}
                 >
                   <img src={DeleteImg} alt="delete" />
                 </button>
