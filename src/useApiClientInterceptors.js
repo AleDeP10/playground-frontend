@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useSpinnerStore } from "./store/index.js";
+import { useLogoutStore } from "./store/index.js";
 
 const apiClient = axios.create({
   baseURL: process.env.REACT_APP_SERVER,
@@ -13,6 +14,7 @@ const apiClient = axios.create({
 // Funzione che gestisce gli intercettori
 const useApiClientInterceptors = (disableSpinner = false) => {
   const setShowSpinner = useSpinnerStore((state) => state.setShowSpinner);
+  const setLogout = useLogoutStore((state) => state.setLogout);
 
   useEffect(() => {
     const requestInterceptor = apiClient.interceptors.request.use((config) => {
@@ -38,7 +40,8 @@ const useApiClientInterceptors = (disableSpinner = false) => {
         // Se è un errore Axios
         if (error.response.status === 403) {
           // Gestione dell'errore 403 Forbidden
-          window.location.reload(); // Redirect alla pagina di login
+          // window.location.reload(); // Redirect alla pagina di login
+          setLogout(true); // Imposta lo stato di logout
         } else {
           jsonData = {
             error: `Request failed with status ${error.response.status}: ${error.response.statusText}`
@@ -71,7 +74,7 @@ const useApiClientInterceptors = (disableSpinner = false) => {
       apiClient.interceptors.request.eject(requestInterceptor);
       apiClient.interceptors.response.eject(responseInterceptor);
     };
-  }, [setShowSpinner]);
+  }, [setShowSpinner, setLogout]);
 
   // Restituisci apiClient per consentirne l'utilizzo nel componente
   return apiClient;

@@ -12,6 +12,13 @@ const spinnerStore = (set, get) => ({
   },
 });
 
+
+const logoutStore = (set) => ({
+  isLoggedOut: false,
+  setLogout: (value) => set({ isLoggedOut: value }),
+});
+
+
 const mainContentStore = (set) => ({
   currentContent: "ricerca",
   previusContent: null,
@@ -24,6 +31,7 @@ const mainContentStore = (set) => ({
 });
 
 const useSpinnerStore = create(devtools(spinnerStore));
+const useLogoutStore = create(devtools(logoutStore));
 const useMainContentStore = create(devtools(mainContentStore));
 
-export { useSpinnerStore, useMainContentStore };
+export { useSpinnerStore, useLogoutStore, useMainContentStore };
