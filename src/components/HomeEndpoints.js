@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { useSpinnerStore } from "../store/index.js";
 import SpinnerModal from "./SpinnerModal.js";
-import { hello } from "../api/hello_world.js";
-import { fetchData } from "../api/linkedin_snipplet_01.js";
-import { dbScan } from "../api/db_scan.js";
+import { hello } from "../api/helloWorld.js";
+import { fetchData } from "../api/fetchData.js";
+import { dbScan } from "../api/dbScan.js";
 import SpinnerImg from "../assets/blue_14025120.png";
-import "./MyComponent.css";
+import "./HomeEndpoints.css";
 
-const MyComponent = () => {
+const HomeEndpoints = () => {
   const [enableButton, setEnableButton] = useState(true);
   const [displaySpinnerModal, setDisplaySpinnerModal] = useState(false);
   const [zone1, setZone1] = useState("");
@@ -107,6 +107,6 @@ const MyComponent = () => {
   );
 };
 
-MyComponent.displayName = "MyComponent";
+HomeEndpoints.displayName = "HomeEndpoints";
 
-export default MyComponent;
+export default HomeEndpoints;

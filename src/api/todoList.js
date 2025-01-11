@@ -1,8 +1,8 @@
-export async function crea(apiClient, task, status) {
+export async function create(apiClient, task, status) {
   let jsonData;
   try {
     const response = await apiClient.post(
-      process.env.REACT_APP_SERVER + "/todo/crea",
+      process.env.REACT_APP_SERVER + "/todo/create",
       { task, status }
     );
 
@@ -16,11 +16,11 @@ export async function crea(apiClient, task, status) {
   return jsonData;
 }
 
-export async function ricerca(apiClient, filters) {
+export async function search(apiClient, filters) {
   let jsonData;
   try {
     const response = await apiClient.post(
-      process.env.REACT_APP_SERVER + "/todo/ricerca",
+      process.env.REACT_APP_SERVER + "/todo/search",
       filters
     );
     if (response.statusText !== "OK") {
@@ -33,11 +33,11 @@ export async function ricerca(apiClient, filters) {
   return jsonData;
 }
 
-export async function aggiorna(apiClient, id, task, status) {
+export async function update(apiClient, id, task, status) {
   let jsonData;
   try {
     const response = await apiClient.put(
-      `${process.env.REACT_APP_SERVER}/todo/aggiorna?id=${id}`,
+      `${process.env.REACT_APP_SERVER}/todo/update?id=${id}`,
       { task, status }
     );
     if (response.statusText !== "OK") {
@@ -50,11 +50,11 @@ export async function aggiorna(apiClient, id, task, status) {
   return jsonData;
 }
 
-export async function cancella(apiClient, id) {
+export async function remove(apiClient, id) {
   let jsonData;
   try {
     const response = await apiClient.delete(
-      `${process.env.REACT_APP_SERVER}/todo/cancella?id=${id}`
+      `${process.env.REACT_APP_SERVER}/todo/remove?id=${id}`
     );
     if (response.status !== 200) {
       throw new Error(`Network response was not ok: ${response.statusText}`);

@@ -9,7 +9,7 @@ import Logout from "./components/Logout.js";
 
 import "./App.css";
 import logo from "./logo.svg";
-import MyComponent from "./components/MyComponent.js";
+import HomeEndpoints from "./components/HomeEndpoints.js";
 
 function App() {
   const [displayCredits, setDisplayCredits] = useState(false);
@@ -67,7 +67,7 @@ function App() {
         </div>
       </header>
       <div className="App-body">
-        {currentView === "home" && <MyComponent />}
+        {currentView === "home" && <HomeEndpoints />}
         {currentView === "todo" && (user ? <TodoList /> : <Login setUser={setUser} />)}
         {currentView === "logout" && <Logout setCurrentView={setCurrentView} />}
       </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import useApiClientInterceptors from "../useApiClientInterceptors.js";
 import { useTodoStore } from "../store/index.js";
 import { useSpinnerStore } from "../store/index.js";
-import { ricerca, aggiorna, cancella } from "../api/todo_list.js";
+import { search, update, remove } from "../api/todoList.js";
 import AddEditModal from "./AddEditModal.js";
 import FiltersModal from "./FiltersModal.js";
 import AddImg from "../assets/add_9055025.png";
@@ -31,9 +31,9 @@ const TodoList = () => {
   const [taskItem, setTaskItem] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const search = useCallback(async () => {
+  const load = useCallback(async () => {
     setLocalSpinner("todoList", true);
-    const items = await ricerca(apiClient);
+    const items = await search(apiClient);
     if (Array.isArray(items)) {
       setTaskItems(items);
     } else {
@@ -44,11 +44,11 @@ const TodoList = () => {
 
   useEffect(() => {
     async function fetchData() {
-      await search();
+      await load();
       setUpdated(false);
     }
     fetchData();
-  }, [search, updated]);
+  }, [load, updated]);
 
   const closeTaskModal = () => {
     setDisplayAddEdit(false);
@@ -74,7 +74,7 @@ const TodoList = () => {
   };
 
   const removeTask = async (id) => {
-    const { error } = await cancella(apiClient, id);
+    const { error } = await remove(apiClient, id);
     displayErrorMessage(error);
     setUpdated(true);
   };
@@ -90,7 +90,7 @@ const TodoList = () => {
       default:
         return;
     }
-    const { error } = await aggiorna(apiClient, task.id, task.task, task.status);
+    const { error } = await update(apiClient, task.id, task.task, task.status);
     displayErrorMessage(error);
     setUpdated(true);
   };

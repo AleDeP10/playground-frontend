@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import useApiClientInterceptors from "../useApiClientInterceptors.js";
-import { crea, aggiorna } from "../api/todo_list.js";
+import { create, update } from "../api/todoList.js";
 import "./Modal.css";
 
 const AddEditModal = ({ isOpen, onClose, onSave, taskItem }) => {
@@ -16,13 +16,13 @@ const AddEditModal = ({ isOpen, onClose, onSave, taskItem }) => {
     try {
       let error;
       if (currentItem?.id) {
-        error = await aggiorna(apiClient, taskItem.id, task, status); // Aspetta che aggiorna si completi
+        error = await update(apiClient, taskItem.id, task, status);
       } else {
-        error = await crea(apiClient, task, status); // Aspetta che crea si completi
+        error = await create(apiClient, task, status);
       }
       const display = displayErrorMessage(error);
       if (!display) {
-        onSave(); // Aspetta che onSave si completi
+        onSave(); 
         setTask("");
         setStatus("TODO");
         return true;
