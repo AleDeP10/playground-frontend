@@ -1,4 +1,4 @@
-import { fetchData } from "./linkedin_snipplet_01.js";
+import { fetchData } from "./fetchData.js";
 import 'dotenv/config';
 
 test('Status returned should be OK', async () => {
