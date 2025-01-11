@@ -1,4 +1,4 @@
-import { dbScan } from './db_scan.js';
+import { dbScan } from './dbScan.js';
 import 'dotenv/config';
 
 test('It should return 2', async () => {

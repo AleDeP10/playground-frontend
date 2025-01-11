@@ -1,6 +1,6 @@
 
 export async function dbScan(query, alias) {
-    let url = 'http://localhost:5000/db_scan';
+    let url = 'http://localhost:5000/dbScan';
     if (query || alias) {
         url += '?';
         if (query) {

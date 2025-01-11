@@ -1,4 +1,4 @@
-import { hello } from "./hello_world.js";
+import { hello } from "./helloWorld.js";
 import "dotenv/config";
 
 test("It should greet the entire world!", async () => {
