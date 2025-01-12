@@ -14,13 +14,13 @@ import HomeEndpoints from "./components/HomeEndpoints.js";
 function App() {
   const [displayCredits, setDisplayCredits] = useState(false);
   const [displayTheTeam, setDisplayTheTeam] = useState(false);
-  const [user, setUser] = useState(null); // Imposta l'utente iniziale a null
+  const [user, setUser] = useState(null);
   const [currentView, setCurrentView] = useState("home");
   const isLoggedOut = useLogoutStore((state) => state.isLoggedOut);
 
   useEffect(() => {
     if (isLoggedOut) {
-      setUser(null); // Imposta l'utente a null in caso di logout
+      setUser(null);
       setCurrentView("logout");
     }
   }, [isLoggedOut]);

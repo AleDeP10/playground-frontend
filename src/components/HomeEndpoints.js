@@ -13,19 +13,19 @@ const HomeEndpoints = () => {
   const [zone1, setZone1] = useState("");
   const [zone2, setZone2] = useState("");
   const [zone3, setZone3] = useState("");
-
+/*
   const setShowSpinner = useSpinnerStore((state) => state.setShowSpinner);
   const showSpinner = useSpinnerStore((state) => state.showSpinner);
-  const setLocalSpinner = useSpinnerStore((state) => state.setLocalSpinner);
+*/  const setLocalSpinner = useSpinnerStore((state) => state.setLocalSpinner);
   const localSpinner = useSpinnerStore((state) => state.localSpinner);
 
   const displaySpinner = () => {
     setEnableButton(false);
-    setShowSpinner(true);
+    //setShowSpinner(true);
     setDisplaySpinnerModal(true);
     setTimeout(() => {
       setDisplaySpinnerModal(false);
-      setShowSpinner(false);
+      //setShowSpinner(false);
       setEnableButton(true);
     }, 5000);
   };
@@ -38,7 +38,7 @@ const HomeEndpoints = () => {
             data = await hello();
             break;
         case 2:
-            data = await fetchData(process.env.REACT_APP_SERVER + "/fetch_data");
+            data = await fetchData(process.env.REACT_APP_SERVER + "/fetchData");
             break;
         case 3:
             data = await dbScan('SELECT NOW()', 'dataora');
@@ -70,9 +70,9 @@ const HomeEndpoints = () => {
           Show Spinner
         </button>
       </div>
-      {showSpinner && (
+      {/*showSpinner && (
         <img src={SpinnerImg} className="App-logo" alt="spinner" />
-      )}
+      )*/}
       <div className="zones">
         <div className="zone">
           <textarea disabled value={zone1}></textarea>
