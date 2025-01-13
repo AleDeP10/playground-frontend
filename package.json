@@ -1,0 +1,70 @@
+{
+  "name": "playground-frontend",
+  "version": "2.1.2",
+  "description": "area di test e verifiche veloci",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "craco start --config craco.config.cjs",
+    "start:serve": "serve -s build",
+    "build": "craco build --config craco.config.cjs",
+    "test": "jest --config jest.config.js",
+    "test:react": "react-scripts test",
+    "test:craco": "craco test",
+    "eject": "react-scripts eject"
+  },
+  "keywords": [
+    "javascript",
+    "zustand",
+    "playground",
+    "todo list",
+    "spinner"
+  ],
+  "author": "AleDeP10",
+  "license": "MIT",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "last 1 edge version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
+    "@babel/preset-env": "^7.26.0",
+    "@babel/preset-react": "^7.25.9",
+    "@craco/craco": "^7.1.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "babel-jest": "^29.7.0",
+    "buffer": "^6.0.3",
+    "cross-fetch": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "esm": "^3.2.25",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "node-fetch": "^3.3.2",
+    "node-polyfill-webpack-plugin": "^1.1.4",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
+    "util": "^0.12.5",
+    "webpack-node-externals": "^3.0.0"
+  },
+  "dependencies": {
+    "axios": "^1.7.9",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "^5.0.1",
+    "web-vitals": "^2.1.4",
+    "zustand": "^5.0.2"
+  }
+}

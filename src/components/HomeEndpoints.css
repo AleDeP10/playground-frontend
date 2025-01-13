@@ -1,0 +1,21 @@
+.spacer20 {
+    margin-bottom: 20px;
+}
+
+.zones {
+  display: flex;
+  height: 100vh; 
+  gap: 20px;
+}
+
+.zones div {
+    width: 100%;
+}
+
+textarea {
+  flex-grow: 1;
+  width: 100%;
+  min-height: 300px;
+  box-sizing: border-box; /* Assicura che padding e border siano inclusi nelle dimensioni */
+  resize: none; /* Opzionale: disabilita il ridimensionamento manuale */
+}

@@ -1,0 +1,14 @@
+.login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+.login img {
+  width: 300px
+}
+
+.errors {
+  color: red;
+}
