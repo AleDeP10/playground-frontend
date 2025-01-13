@@ -1,6 +1,5 @@
 import { hello } from "./helloWorld.js";
 
-
 test("It should greet the entire world!", async () => {
   const response = await hello();
   expect(response).not.toBeNull();

@@ -24,7 +24,6 @@ export async function dbScan(query, alias) {
             throw new Error('Network response was not ok ' + response.statusText);
         }
         jsonData = await response.json();
-        console.log('dbScan.script', { url, jsonData }); 
     } catch (error) {
         console.error('Error:', error);
         jsonData = null;

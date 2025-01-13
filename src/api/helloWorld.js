@@ -1,5 +1,5 @@
 export async function hello(name) {
-    let url = `${process.env.REACT_APP_SERVER}/hello${name ? '?name=' + name : ''}`
+    let url = `${process.env.REACT_APP_SERVER_URL}/hello${name ? '?name=' + name : ''}`
     let jsonData;
     try {
         const response = await fetch(url, {

@@ -38,7 +38,7 @@ const HomeEndpoints = () => {
             data = await hello();
             break;
         case 2:
-            data = await fetchData(process.env.REACT_APP_SERVER + "/fetchData");
+            data = await fetchData(process.env.REACT_APP_SERVER_URL + "/fetchData");
             break;
         case 3:
             data = await dbScan('SELECT NOW()', 'dataora');

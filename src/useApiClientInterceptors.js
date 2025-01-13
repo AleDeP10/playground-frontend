@@ -1,83 +1,77 @@
 import axios from "axios";
-import { useEffect } from "react";
 import { useSpinnerStore } from "./store/index.js";
 import { useLogoutStore } from "./store/index.js";
 
 const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_SERVER,
+  baseURL: process.env.REACT_APP_SERVER_URL,
   headers: {
     "Content-Type": "application/json"
   },
-  //withCredentials: true
+  withCredentials: true
 });
 
-// Funzione che gestisce gli intercettori
-const useApiClientInterceptors = (disableSpinner = false) => {
-  const setShowSpinner = useSpinnerStore((state) => state.setShowSpinner);
-  const setLogout = useLogoutStore((state) => state.setLogout);
+const setupInterceptors = (disableSpinner = false) => {
+  const setShowSpinner = useSpinnerStore.getState().setShowSpinner;
+  const setLogout = useLogoutStore.getState().setLogout;
 
-  useEffect(() => {
-    const requestInterceptor = apiClient.interceptors.request.use((config) => {
-      if (!disableSpinner) setShowSpinner(true);
-      const token = localStorage.getItem("token");
-      if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
-      }
-      return config;
-    }, (error) => {
-      return Promise.reject(error);
-    });
+  const requestInterceptor = apiClient.interceptors.request.use((config) => {
+    if (!disableSpinner) setShowSpinner(true);
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  }, (error) => {
+    return Promise.reject(error);
+  });
 
-    const responseInterceptor = apiClient.interceptors.response.use((response) => {
-      if (!disableSpinner) setShowSpinner(false);
-      return response;
-    }, (error) => {
-      if (!disableSpinner) setShowSpinner(false);
+  const responseInterceptor = apiClient.interceptors.response.use((response) => {
+    if (!disableSpinner) setShowSpinner(false);
+    return response;
+  }, (error) => {
+    if (!disableSpinner) setShowSpinner(false);
 
-      let jsonData;
-      console.error("Error:", error);
-      if (error.response) {
-        // Se è un errore Axios
-        if (error.response.status === 403) {
-          // Gestione dell'errore 403 Forbidden
-          // window.location.reload(); // Redirect alla pagina di login
-          setLogout(true); // Imposta lo stato di logout
-        } else {
-          jsonData = {
-            error: `Request failed with status ${error.response.status}: ${error.response.statusText}`
-          };
-        }
-      } else if (error.request) {
-        // Errore di richiesta, ma nessuna risposta ricevuta
-        jsonData = {
-          error: "No response received: " + error.message
-        };
+    let jsonData;
+    if (error.response) {
+      if (error.response.status === 403) {
+        setLogout(true);
       } else {
-        // Qualsiasi altro errore
-        const err = error.error;
-        let message;
-        if (err) {
-          message = err;
-        } else {
-          message = "Error in setting up request: " + error.message;
-        }
         jsonData = {
-          error: message
+          error: `Request failed with status ${error.response.status}: ${error.response.statusText}`
         };
       }
+    } else if (error.request) {
+      jsonData = {
+        error: "No response received: " + error.message
+      };
+    } else {
+      const err = error.error;
+      let message;
+      if (err) {
+        message = err;
+      } else {
+        message = "Error in setting up request: " + error.message;
+      }
+      jsonData = {
+        error: message
+      };
+    }
 
-      return Promise.reject(jsonData); // Restituisce l'oggetto { error }
-    });
+    return Promise.reject(jsonData);
+  });
 
-    // Pulizia degli intercettori quando il componente viene smontato
-    return () => {
-      apiClient.interceptors.request.eject(requestInterceptor);
-      apiClient.interceptors.response.eject(responseInterceptor);
-    };
-  }, [setShowSpinner, setLogout]);
+  return () => {
+    apiClient.interceptors.request.eject(requestInterceptor);
+    apiClient.interceptors.response.eject(responseInterceptor);
+  };
+};
 
-  // Restituisci apiClient per consentirne l'utilizzo nel componente
+const useApiClientInterceptors = (disableSpinner = false) => {
+  setupInterceptors(disableSpinner);
   return apiClient;
 };
 
 export default useApiClientInterceptors;
+export { apiClient, setupInterceptors };
+
+

@@ -13,7 +13,7 @@ const login = ({ setUser }) => {
   const sendCredentials = async () => {
     try {
       const response = await apiClient.post(
-        `${process.env.REACT_APP_SERVER}/login`,
+        `${process.env.REACT_APP_SERVER_URL}/login`,
         { username, password }
       );
   
@@ -40,8 +40,7 @@ const login = ({ setUser }) => {
         setMessage("Error in setting up the request");
       }
     }
-  };
-  
+  };  
 
   return (
     <div className="login">

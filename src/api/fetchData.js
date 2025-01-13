@@ -10,7 +10,6 @@ export async function fetchData(url) {
         throw new Error("Network response was not ok " + response.statusText);
       }
       jsonData = await response.json();
-      console.log({ jsonData });
     } catch (error) {
       console.error("Error:", error);
       jsonData = null;
