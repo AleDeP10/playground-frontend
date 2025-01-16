@@ -6,10 +6,10 @@ test("It should return 2", async () => {
 });
 
 test("It should return a valid date", async () => {
-  const response = await dbScan("SELECT NOW()", "dataora");
+  const response = await dbScan("SELECT NOW()", "datetime");
 
-   expect(response["dataora"]).toBeDefined();
+   expect(response["datetime"]).toBeDefined();
 
-  const date = new Date(response["dataora"]);
+  const date = new Date(response["datetime"]);
   expect(date.toString()).not.toBe("Invalid Date");
 });

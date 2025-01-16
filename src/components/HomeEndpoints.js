@@ -41,7 +41,7 @@ const HomeEndpoints = () => {
             data = await fetchData(process.env.REACT_APP_SERVER_URL + "/fetchData");
             break;
         case 3:
-            data = await dbScan('SELECT NOW()', 'dataora');
+            data = await dbScan('SELECT NOW()', 'datetime');
             break;
         default:
     }
